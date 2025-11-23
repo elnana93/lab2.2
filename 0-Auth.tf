@@ -22,3 +22,9 @@ terraform {
 # to ssh into your instance hit this command on bash 
 # "ssh -i keylab1.3.pem ec2-user@34.219.139.148"
 # "curl ifconfig.me" - hit this on bash to find your cidr block aka ip address
+
+
+#for exsisting plays
+# git add .github/workflows/deploy.yml
+# git commit -m "Add fixed deploy workflow"
+# git push
