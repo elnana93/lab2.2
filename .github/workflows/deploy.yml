@@ -3,13 +3,14 @@ name: Deploy to S3
 on:
   push:
     branches:
-      - main
+      - main  # runs when you push to the main branch
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: Configure AWS credentials
@@ -18,5 +19,7 @@ jobs:
           role-to-assume: ${{ secrets.actions_role_arn }}
           aws-region: us-west-2
 
-      - name: Sync to S3
-        run: aws s3 sync ./build s3://e5tech --delete
+      - name: Sync files to S3
+        run: |
+          # Make sure this path exists in your repo, change if necessary
+          aws s3 sync ./build s3://e5tech --delete
