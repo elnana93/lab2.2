@@ -1,5 +1,3 @@
-
-
 # 1️⃣ Create the OIDC provider for GitHub Actions
 resource "aws_iam_openid_connect_provider" "github" {
   url             = "https://token.actions.githubusercontent.com"
@@ -11,6 +9,7 @@ resource "aws_iam_openid_connect_provider" "github" {
 resource "aws_iam_policy" "github_s3_policy" {
   name        = "GitHubActionsS3Access"
   description = "Policy for GitHub Actions to access e5tech bucket"
+
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -43,7 +42,7 @@ resource "aws_iam_role" "github_actions_role" {
         Action = "sts:AssumeRoleWithWebIdentity"
         Condition = {
           StringLike = {
-            "token.actions.githubusercontent.com:sub" = "repo:elnana93/lab2.2:*"
+            "token.actions.githubusercontent.com:sub" = "repo:elnana93/lab2.2:ref:refs/heads/main"
           }
         }
       }
