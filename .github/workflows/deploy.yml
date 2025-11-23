@@ -19,7 +19,13 @@ jobs:
           role-to-assume: ${{ secrets.actions_role_arn }}
           aws-region: us-west-2
 
+      - name: Check assets folder
+        run: |
+          if [ ! -d "./assets" ]; then
+            echo "Error: assets folder not found!"
+            exit 1
+          fi
+
       - name: Sync files to S3
         run: |
-          # Make sure this path exists in your repo, change if necessary
-          aws s3 sync ./build s3://e5tech --delete
+          aws s3 sync ./assets s3://e5tech --delete
