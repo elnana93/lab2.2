@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      id-token: write   # required for OIDC
+      id-token: write   # Required for OIDC
       contents: read
 
     steps:
@@ -20,8 +20,14 @@ jobs:
       - name: Configure AWS credentials via OIDC
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: arn:aws:iam::676373376093:role/github_actions_role
+          role-to-assume: arn:aws:iam::676373376093:role/GitHubActionsRole
           aws-region: us-west-2
 
+      - name: Verify AWS Identity
+        run: aws sts get-caller-identity
+
       - name: Sync files to S3
-        run: aws s3 sync . s3://e5tech --delete
+        run: |
+          aws s3 sync . s3://e5tech --delete \
+            --exclude ".git/*" \
+            --exclude "*.tf"
