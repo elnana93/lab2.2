@@ -1,31 +1,27 @@
-name: Deploy to S3
+name: Deploy to S3 via OIDC
 
 on:
   push:
     branches:
-      - main  # triggers only on pushes to main branch
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    permissions:
+      id-token: write   # required for OIDC
+      contents: read
+
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Configure AWS credentials
+      - name: Configure AWS credentials via OIDC
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: ${{ secrets.ACTIONS_ROLE_ARN }}
+          role-to-assume: arn:aws:iam::676373376093:role/github_actions_role
           aws-region: us-west-2
 
-      - name: Ensure assets folder exists
-        run: |
-          if [ ! -d "./assets" ]; then
-            echo "Error: assets folder not found!"
-            exit 1
-          fi
-
-      - name: Sync assets to S3
-        run: |
-          aws s3 sync ./assets s3://e5tech --delete
+      - name: Sync files to S3
+        run: aws s3 sync . s3://e5tech --delete
