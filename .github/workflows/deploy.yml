@@ -3,7 +3,7 @@ name: Deploy to S3
 on:
   push:
     branches:
-      - main  # Trigger only on pushes to main branch
+      - main  # triggers only on pushes to main branch
 
 jobs:
   deploy:
@@ -17,10 +17,9 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v2
         with:
           role-to-assume: ${{ secrets.ACTIONS_ROLE_ARN }}
-
           aws-region: us-west-2
 
-      - name: Check assets folder exists
+      - name: Ensure assets folder exists
         run: |
           if [ ! -d "./assets" ]; then
             echo "Error: assets folder not found!"
