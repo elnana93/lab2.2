@@ -78,3 +78,176 @@ output "actions_role_arn" {
   value       = aws_iam_role.github_actions_role.arn
   description = "Role ARN to use in GitHub Actions"
 }
+
+
+
+
+
+
+
+
+
+
+
+
+/* 
+resource "aws_s3_bucket_policy" "assets_public" {
+  bucket = "e5tech"
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid       = "PublicReadAssetsFolder"
+        Effect    = "Allow"
+        Principal = "*"
+        Action    = ["s3:GetObject"]
+        Resource  = ["arn:aws:s3:::e5tech/assets/*"]
+      }
+    ]
+  })
+}
+
+resource "aws_s3_bucket_public_access_block" "assets_folder" {
+  bucket = "e5tech"
+
+  block_public_acls       = true   # keep other public ACLs blocked
+  block_public_policy     = false  # allow bucket policy to make assets/ public
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* resource "aws_s3_bucket_policy" "assets_public" {
+  bucket = aws_s3_bucket.my_bucket.id
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid       = "PublicReadAssetsFolder"
+        Effect    = "Allow"
+        Principal = "*"               
+        Action    = ["s3:GetObject"] 
+        Resource  = ["arn:aws:s3:::${aws_s3_bucket.my_bucket.id}/assets/*"]
+      }
+    ]
+  })
+} */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 
+
+
+resource "aws_s3_bucket_policy" "my_bucket_policy" {
+  bucket = aws_s3_bucket.my_bucket.id
+
+  policy = data.aws_iam_policy_document.allow_assets_public_read.json
+}
+
+data "aws_iam_policy_document" "allow_assets_public_read" {
+  statement {
+    actions   = ["s3:GetObject"]
+    resources = ["${aws_s3_bucket.my_bucket.arn}/assets/*"]  # Only allow access to assets folder
+
+    effect = "Allow"
+    principals {
+      type        = "AWS"
+      identifiers = ["*"]  # Allow public access
+    }
+  }
+}
+ */
